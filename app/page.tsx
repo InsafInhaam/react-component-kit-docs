@@ -1,103 +1,186 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Input,
+  Modal,
+  Pagination,
+  RadioGroup,
+  Select,
+  Tabs,
+  Textarea,
+  Tooltip,
+} from "@insafinhaam732/react-component-kit";
+import { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import {
+  vscDarkPlus,
+  vs,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
+import { FaArrowRight } from "react-icons/fa";
+import { Slider } from "@/components/Slider/Slider";
+
+export default function ComponentShowcase() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [comment, setComment] = useState("");
+  const [plan, setPlan] = useState("");
+  const [date, setDate] = useState("");
+  const [accepted, setAccepted] = useState(false);
+  const [theme, setTheme] = useState("dark");
+
+  const CodeBlock = ({ code }: { code: string }) => (
+    <SyntaxHighlighter
+      language="tsx"
+      style={theme === "dark" ? vscDarkPlus : vs}
+    >
+      {code}
+    </SyntaxHighlighter>
+  );
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div
+      className={`min-h-screen px-4 py-10 ${
+        theme === "dark" ? "bg-[#121212] text-white" : "bg-white text-black"
+      }`}
+    >
+      <div className="max-w-6xl m-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">🎨 Component Library Showcase</h1>
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="px-4 py-2 border rounded-md"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Toggle {theme === "dark" ? "Light" : "Dark"} Mode
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">🖱️ Button</h2>
+          <Button label="Click Me" endIcon={<FaArrowRight />} />
+          <CodeBlock
+            code={`<Button label="Click Me" endIcon={<FaArrowRight />} />`}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">📄 Pagination</h2>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={10}
+            onPageChange={(page) => setCurrentPage(page)}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <CodeBlock
+            code={`<Pagination currentPage={currentPage} totalPages={10} onPageChange={(page) => setCurrentPage(page)} />`}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">📝 Modal</h2>
+          <Button label="Open Modal" onClick={() => setShowModal(true)} />
+          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+            <h3 className="text-xl font-bold">Hello from Modal!</h3>
+            <p>This is modal content.</p>
+          </Modal>
+          <CodeBlock
+            code={`<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+<h3>Hello from Modal!</h3>
+<p>This is modal content.</p>
+</Modal>`}
+          />
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">🔘 Radio Group</h2>
+          <RadioGroup
+            label="Choose a plan"
+            name="plan"
+            value={plan}
+            onChange={setPlan}
+            options={[
+              { label: "Free", value: "free" },
+              { label: "Pro", value: "pro" },
+              { label: "Enterprise", value: "enterprise" },
+            ]}
+          />
+          <CodeBlock
+            code={`<RadioGroup label="Choose a plan" name="plan" value={plan} onChange={setPlan} options={[{ label: 'Free', value: 'free' }, { label: 'Pro', value: 'pro' }, { label: 'Enterprise', value: 'enterprise' }]} />`}
+          />
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">☑️ Checkbox</h2>
+          <Checkbox
+            label="I accept the terms and conditions"
+            checked={accepted}
+            onChange={(e) => setAccepted(e.target.checked)}
+          />
+          <CodeBlock
+            code={`<Checkbox label="I accept the terms and conditions" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} />`}
+          />
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">📅 Date Picker</h2>
+          <DatePicker label="Select date" value={date} onChange={setDate} />
+          <CodeBlock
+            code={`<DatePicker label="Select date" value={date} onChange={setDate} />`}
+          />
+        </section>
+
+        <section className="mb-10">
+          <h2 className="text-2xl font-semibold mb-2">📅 Input Fields</h2>
+          <Input
+            label="Email"
+            type="email"
+            placeholder="example@gmail.com"
+            required
+            iconLeft={<i className="bx bx-envelope" />}
+          />
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            error="Password is required"
+            iconRight={<i className="bx bx-lock" />}
+          />
+
+          <CodeBlock
+            code={`<Input
+label="Email"
+type="email"
+placeholder="example@gmail.com"
+required
+iconLeft={<i className="bx bx-envelope" />}
+/>
+
+<Input
+label="Password"
+type="password"
+placeholder="Enter your password"
+error="Password is required"
+iconRight={<i className="bx bx-lock" />}
+/>`}
+          />
+        </section>
+
+        <br />
+
+        <Slider
+          autoPlay
+          autoPlayInterval={5000}
+          showArrows
+          showDots
+          animationType="fade"
+          infinite
+        >
+          <img src="/images/home-main.webp" alt="Slide 1" />
+          <img src="/images/image1.png" alt="Slide 2" />
+          <img src="/images/image2.png" alt="Slide 3" />
+        </Slider>
+      </div>
     </div>
   );
 }
